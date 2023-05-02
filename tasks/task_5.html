@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>task_5</title>
+</head>
+<body>
+	<header>
+		<a href="../index.html">На головну</a>
+	</header>
+	<main>
+		<p>Особиста бібліотека. Картотека домашньої бібліотеки: дані книги (автори (піб, рік народження, короткий опис), назва книги, жанр, видавництво (назва, реєстраційний номер, рік засування)). Реалізувати розділи бібліотеки (спеціальна література, хобі, домашнє господарство і т.д.), походження книги і наявність на даний час. Організувати додавання/вилучення книг та  вибір книг за назвою, за ПІБ автора, за видавництвом.
+		</p>
+	</main>
+	<script>
+		class Author{
+			constructor(authorFullName,bornDate,description){
+				this.authorFullName=authorFullName
+				this.bornDate=bornDate
+				this.description=description
+			}
+			toString(){
+				return `Автор: ${this.authorFullName}; Рік народження: ${this.bornDate}`
+			}
+		}
+		class Publisher{
+			constructor(namePublisher,idNum,creationYear){
+				this.namePublisher=namePublisher
+				this.idNum=idNum
+				this.creationYear=creationYear
+			}
+			toString(){
+				return `Видавництво: ${this.namePublisher}, реєстраційний номер: ${this.idNum}, засновано в ${this.creationYear} році.`
+			}
+		}
+		class Book{
+			constructor(bookObg){
+				this.author=bookObg.author
+				this.bookName=bookObg.bookName
+				this.genre=bookObg.genre
+				this.publisher=bookObg.publisher
+				this.originOfBook=bookObg.originOfBook
+				this.availability=bookObg.availability
+			}
+			toString(){
+				return `
+				Автор: ${this.author},
+				Назва книги: ${this.bookName},
+				жанр: ${this.genre},
+				Видавництво: ${this.publisher},
+				Походження книги: ${this.originOfBook},
+				Наявність книги: ${this.availability}`
+			}
+		}
+		class Library{
+			constructor(bookList){
+				this.library=bookList
+			}
+			// додавання книги
+			addBook(book){
+				this.library.push(book)
+			}
+			//видалення книги
+			delBook(bookName){
+				this.library=this.library.filter((el)=>el.bookName!==bookName)
+			}
+			// вибір книг за назвою
+			filterByNameBook(bookName){
+				return this.library.filter((el)=>el.bookName===bookName)
+			}
+			// вибір книг за автором
+			filterByAuthor(authorName){
+				return this.library.filter((el)=>el.author.authorFullName===authorName)
+			}
+			// вибір книг за видавництвом
+			filterByPublisher(publisher){
+				return this.library.filter((el)=>el.publisher.namePublisher===publisher)
+			}
+		}
+		let bookList=[
+			new Book({
+				author: new Author('Author_1',1976,'Description of author...'),
+				bookName: 'book_1',
+				genre: 'hobby',
+				publisher: new Publisher('Publisher_1', 456543, 2000),
+				originOfBook: 'gift',
+				availability: true
+			}),
+			new Book({
+				author: new Author('Author_2',1986,'Description of author...'),
+				bookName: 'book_2',
+				genre: 'history',
+				publisher: new Publisher('Publisher_2', 123456, 1995),
+				originOfBook: 'gift',
+				availability: true
+			}),
+			new Book({
+				author: new Author('Author_3',1969,'Description of author...'),
+				bookName: 'book_3',
+				genre: 'hobby',
+				publisher: new Publisher('Publisher_1', 456543, 2000),
+				originOfBook: 'buy',
+				availability: true
+			}),
+			new Book({
+				author: new Author('Author_3',1969,'Description of author...'),
+				bookName: 'book_4',
+				genre: 'hobby',
+				publisher: new Publisher('Publisher_2', 123456, 1995),
+				originOfBook: 'buy',
+				availability: true
+			})
+		]
+
+		let myLibrary=new Library(bookList)
+		console.log(myLibrary)
+		console.log(myLibrary.filterByNameBook('book_1'))
+		console.log(myLibrary.filterByAuthor('Author_3'))
+		console.log(myLibrary.filterByPublisher('Publisher_1'))
+	</script>
+</body>
+</html>

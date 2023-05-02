@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>task_3</title>
+</head>
+<body>
+	<head>
+		<a href="../index.html">На головну</a>
+	</head>
+	<main>
+		<p>Створити клас Нагадувач. Кожні вказані кількості секунд (використати setInterval) програма нагадує про якусь подію (це просто текст) і також виводиться порядковий номер скільки раз вже нагадування було. Зробити так, щоб неможна було зробити одночасно декілька об’єктів-нагадувачів. Методи зупинки таймера, метод зміни повідомлення без зупинки таймера.</p>
+
+		<script>
+			class Predictor{
+				static prediction
+				static counter=0
+
+				constructor (massage, interval){
+					if (Predictor.prediction) return Predictor.prediction
+					this.massage=massage
+					this.interval=interval
+					this.timer
+					Predictor.prediction=this
+				} 
+
+				showMassage(){
+					this.timer=setInterval(()=>{
+						Predictor.counter++
+						document.write(`${Predictor.counter}  ${this.massage}<br>`)
+					}, this.interval*1000)
+				}
+
+				changMsg(newMassage){
+					this.massage=newMassage
+				}
+
+				stopShowMsg(){
+					clearInterval(this.timer)
+				}
+			}
+
+			const p1=new Predictor('Привіт', 1)
+			p1.showMassage()
+			setInterval(()=>{p1.changMsg('На все добре')}, 3000)
+			setInterval(()=>{p1.stopShowMsg()}, 6000)
+
+		</script>
+	</main>
+</body>
+</html>

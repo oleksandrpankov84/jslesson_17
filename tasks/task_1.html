@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>task_1</title>
+</head>
+<body>
+	<header>
+		<a href="../index.html">На головну</a>
+	</header>
+	<main>
+		<p>Створити клас, що дозволяє виконувати такі операції над масивами: знаходження кількості додатних, кількості від’ємних, кількість входжень деякого числа (статичні методи)</p>
+		<h2>Розвʼязок:</h2>
+		<script>
+			class arrOperation{
+				static qtyOfPositiv=0
+				static qtyOfNegative=0
+				static qtyOfSearch=0
+				constructor(arr){
+					this.arr=[...arr]
+				}
+				static getPositive(arr){
+					for (const el of arr) {
+						if(el>0) arrOperation.qtyOfPositiv++
+					}
+					return arrOperation.qtyOfPositiv
+				}
+				static getNegative(arr){
+					for (const el of arr) {
+						if(el<0) arrOperation.qtyOfNegative++
+					}
+					return arrOperation.qtyOfNegative
+				}
+				static searchNum(arr,userSearch){
+					for (const el of arr) {
+						if(el===userSearch) arrOperation.qtyOfSearch++
+					}
+					return arrOperation.qtyOfSearch
+				}
+			}
+			let a1=new arrOperation([1,2,4,3,6,11,23,45,32,-1,-6,-7,34,9,3,7,3])
+			document.write(`Кільукість дадатних: ${arrOperation.getPositive(a1.arr)}<br>`)
+			document.write(`Кількість відʼємних: ${arrOperation.getNegative(a1.arr)}<br>`)
+			document.write(`Кількість входжень деякого числа: ${arrOperation.searchNum(a1.arr,3)}`)
+		</script>
+	</main>
+</body>
+</html>

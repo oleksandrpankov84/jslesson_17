@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>task_6</title>
+</head>
+<body>
+	<header>
+		<a href="../index.html">На головну</a>
+	</header>
+	<main>
+		<p>Дано два класи MultChecker (клас для перевірки таблиці множення - рандомно генеруються числа, які треба перемножати), AddChecker (клас для перевірки додавання - рандомно генеруються числа у заданому діапазоні, які треба додавати). Обидва класи надсилають результати тестування об'єкту класу Hystory, який зберігає історію тестування у масиві у вигляді об'єктів<br>  
+			Приклад.<br>
+			testsList= [<br>
+				{firstNum:1, secondNum:5,opration:’*’, userAnswer:7, correctAnswer:5},<br>
+				{firstNum:3, secondNum:4,opration:’+’, userAnswer:7, correctAnswer:7},<br>
+			]<br>
+			Можна створити окремий клас TestData, який описує один такий тест і у якому будуть ці поля. <br>
+			Розробити клас TestManager, який використовуючи ці класи за допомогою таймера періодично генерує якісь N задач (рандомно вибираємо, що опитувати: додавання чи множення) і проводить опитування. Результати тестування додаються в об’єкт History.  Зробити так, щоб об'єкт такого класу можна було створити тільки один. Коли зроблено ці N задач вивести усю історію на екран.
+			</p>
+			<script>
+					class TestData{
+					static historyObg
+					static history=[]
+					constructor(obg){
+						if (TestData.historyObg) return TestData.historyObg
+						TestData.history={...obg}
+						TestData.hstoryObg=this
+					}
+					static get History(){
+						return TestData.history
+					}
+					static set History(res){
+						TestData.history.push(res)
+					}
+					static toString(){
+						let result=''
+						for (const el of TestData.history) {
+							let {firstNum,secondNum,operation,correctAnswer,userAnswer} = el
+							result +=`firstNum: ${firstNum}, secondNum: ${secondNum}, operation: ${operation}, userAnswer: ${userAnswer}, correctAnswer: ${correctAnswer} <br>`
+						}
+						return result
+					}
+				}
+				class MultChecker{
+					constructor(minValue=1,maxValue=10,multiplier){
+						this.minValue=minValue
+						this.maxValue=maxValue
+						this.multiplier=multiplier
+					}
+					getRandomNumber(){
+                return this.minValue + Math.floor(Math.random() * (this.maxValue - this.minValue + 1))
+					}
+					startCheck(){
+						this.firstNum=this.multiplier
+						this.secondNum=this.getRandomNumber()
+						this.correctAnswer=this.firstNum*this.secondNum
+						this.userAnswer=parseInt(prompt(`Введіть результат добутку ${this.firstNum} * ${this.secondNum} =`))
+						if(this.userAnswer===this.correctAnswer) 
+							alert(`Вірно`)
+							else alert('Не вірно')
+						TestData.History={
+							firstNum: this.firstNum,
+							secondNum: this.secondNum,
+							operation: '*',
+							correctAnswer: this.correctAnswer,
+							userAnswer: this.userAnswer
+							}
+						
+					}
+				}
+				class AddChecker{
+					constructor(minValue=1,maxValue=10){
+						this.minValue=minValue
+						this.maxValue=maxValue
+					}
+					getRandomNumber(){
+                return this.minValue + Math.floor(Math.random() * (this.maxValue - this.minValue + 1))
+					}
+					startCheck(){
+						this.firstNum=this.getRandomNumber()
+						this.secondNum=this.getRandomNumber()
+						this.correctAnswer=this.firstNum+this.secondNum
+						this.userAnswer=parseInt(prompt(`Введіть результат добутку ${this.firstNum} + ${this.secondNum} =`))
+						if(this.userAnswer===this.correctAnswer) alert(`Вірно`)
+							else alert('Не вірно')
+						TestData.History={
+							firstNum: this.firstNum,
+							secondNum: this.secondNum,
+							operation: '+',
+							correctAnswer: this.correctAnswer,
+							userAnswer: this.userAnswer
+						}
+						
+					}
+				}
+			class TestManager{
+				constructor(minValue,maxValue, N, interval,multiplier){
+					this.minValue=minValue
+					this.maxValue=maxValue
+					this.qtyTest=N
+					this.interval=interval
+					this.multiplier=multiplier
+				}
+				test(){
+					setTimeout(() => {
+						this.qtyTest--
+						let test= ((1+Math.floor(Math.random()*2))===1) ? new MultChecker(this.minValue,this.maxValue,this.multiplier) : new AddChecker(this.minValue,this.maxValue)
+						test.startCheck()
+						if (this.qtyTest>0) this.test() 
+							else document.write(TestData.toString())
+					}, this.interval*1000);
+				}
+			}
+			let test=new TestManager(1,10,4,1,5)
+			test.test()
+			</script>
+	</main>
+</body>
+</html>

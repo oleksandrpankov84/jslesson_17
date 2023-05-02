@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>task_4</title>
+</head>
+<body>
+	<header>
+		<a href="../index.html">На головну</a>
+	</header>
+	<main>
+		<p>Склад. База товарів, які зберігаються на складі: назва товару, одиниця виміру, кількість, фірма виробник (назва, реєстраційний номер). Організувати реєстрацію/відвантаження товарів, фільтрація за назвою товару, фільтрація за назвою фірми</p>
+
+		<script>
+			class Company{
+				constructor(companyTitle,idCompany){
+					this.companyTitle=companyTitle
+					this.idCompany=idCompany
+				}
+				toString(){
+					return `Виробник:${this.companyTitle}; id №:${this.idCompany}`
+				}
+			}
+			class Product{
+				constructor(itemTitle, unit, qty,companyTitle, idCompany){
+					this.itemTitle=itemTitle
+					this.unit=unit
+					this.qty=qty
+					this.producer= new Company(companyTitle,idCompany)
+				}
+				toString(){
+					return `
+					Product: ${this.itemTitle};
+					Unit: ${this.unit};
+					Qty: ${this.qty};
+					Producer: ${this.producer}.
+					`
+				}
+			}
+			class Warehouse{
+				constructor(){
+					this.stocklist=[]
+				}
+				// Реєстрація товарів на складі
+				addItem(itemTitle,unit,qty,companyTitle,idCompany){
+					const addProduct=new Product(itemTitle,unit,qty,companyTitle,idCompany)
+					this.stocklist.push(addProduct)
+				}
+				// відвантаження товарів з складу
+				shipmentItem(itemName,qtyShipment){
+					for (const item of this.stocklist) {
+						if (item.itemTitle===itemName){
+							if(item.qty<qtyShipment) throw new Error('На складі не має достатньої кількості!')
+							item.qty-=qtyShipment
+						}
+					}
+				}
+				itemFilter(itemName){
+					return this.stocklist.filter((item)=>item.itemTitle===itemName)
+				}
+				companyFilter(companyName){
+					return this.stocklist.filter((item)=>item.producer.companyTitle===companyName)
+				}
+				toString(){
+					return `${this.stocklist}`
+				}
+			}
+
+			let stocks=new Warehouse()
+			// реєстрація товару на складі
+			stocks.addItem('Сіль','кг',200,'Артемсіль',012345)
+			stocks.addItem('Цукор','кг',200,'Укрцукор',015423)
+			stocks.addItem('Сік томатний','шт',100,'Нашсік',012345)
+			stocks.addItem('Сік яблучний','шт',100,'Нашсік',012345)
+			stocks.addItem('Сік віноградний','шт',100,'Нашсік',012345)
+			//відвантаження товаруу
+			stocks.shipmentItem('Сіль',50)
+			stocks.shipmentItem('Цукор',50)
+			stocks.shipmentItem('Сік томатний',50)
+			stocks.shipmentItem('Сік віноградний',50)
+			console.log(stocks.toString())
+			console.log(stocks.companyFilter('Нашсік'))
+		</script>
+	</main>
+</body>
+</html>
